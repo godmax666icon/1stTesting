@@ -21,10 +21,17 @@
 
       .\New-SiicEsxiConfig.ps1 -Apply -FormatDatastoresConfirm FORMAT-NEW-LUNS
 
+  If vCenter is not up yet, build the same standard switches from the ESXi shell
+  instead. That script does not move vmk0:
+
+      sh /tmp/new-siic-esxi-network.sh
+      sh /tmp/new-siic-esxi-network.sh apply
+
   Order of operations before this script:
     1. ESXi 8.0 Update 3k is installed on each R640.
     2. The DCUI management address is already set, so this script does not move vmk0.
-    3. vCenter is deployed and reachable.
+    3. vCenter is deployed and reachable. The host-shell script above covers the
+       case where this step is not true yet.
     4. Fibre Channel zoning to the new PowerStore volumes is in place.
     5. The old PowerStore volumes from the incident have been deleted. Their NAA IDs
        must not be reused.
